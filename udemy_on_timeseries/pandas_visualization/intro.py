@@ -64,3 +64,18 @@ print(df.reset_index())  # again not inplace
 print(df.info())  # gives memory usage, datatype, no. cols etc.
 # df.describe() -> mean, std, median, 25th, 75th percentile, max, min etc.
 # df['someCol'].value_counts() -> returns the accumulation of different values
+
+# how to drop rows with invalid data
+df = pd.DataFrame({"A": [1, 2, np.nan], "B": [5, 1, np.nan], "C": [1, np.nan, 3]})
+
+# NaN is unaccepted, so we can drop all the rows which has NaN by:
+# df.dropna(inplace=True)
+print("drop tables and stuff \n")
+print(df)
+# if we wanna drop columns, we can set axis=1 as usual
+
+# we can also set a threshold (if more than threshold values missing, we drop)
+print(df.dropna(thresh=2))
+
+# we can fill nan with a certain value as following
+print(df.fillna(121))
