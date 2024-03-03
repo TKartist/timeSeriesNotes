@@ -36,3 +36,65 @@ use 6.25 for annual data, whereas we are recommended
 to use 129,600 for monthly data)
 
 # search up, the reason for lambda default values
+
+#ETS models (Error-Trend-Seasonality) includes
+ - Exponential smoothing
+ - Trend Methods models
+ - ETS Decomposition
+ETS models will take each of those terms (Error, trend and seasonality)
+for "smoothing" and may add, multiply or leave them out.
+Based off these key factors, we can create a model that fits our data.
+
+# Statsmodels provide a seasonal decomposition tool
+we can use to separate out the different components (trend, cyclical etc.)
+i.e. Hodrick-Prescott filter
+
+# Time series decomposition with ETS
+ - Visualizing the data based on its ETS is a good way to build an
+ understanding of its behaviors
+
+So why do we decompose it:
+When Error, Trend and seasonality are mixed (common in real-life data),
+it is harder to spot them individually. Hence, we "decompose" the data
+into different components and view them individually for clarity.
+
+# Two types of main ETS models
+ - Additive (when trend is linear)
+ - Multiplicative (when trend is non-linear)
+
+# Exponential Weighted Moving Average Model (EWMA Model)
+
+# we can expand on SMA to build EWMA
+more weight to recent and lower weight to older data
+try to avoid weakness of SMA -> i.e.
+ - smaller windows will lead to more noise, rather than signal
+ - it will always lag by the size of the window
+ - it will never reach to full peak of valley of the data due to the averaging
+   graph it to confirm
+ - it actually doesn't inform you about possible future behavior,
+   all it actually does is describe trends in your data
+ - Also extreme historical values can skew SMA significantly
+# EWMA is used to evade some of these problems
+
+# Equation for EWMA
+ - EWMA will allow us to reduce the lag effect from SMA
+ - more weight on values that occured more recently
+ - amount of weight applied to the most recent values will depend on
+   actual parameters used in the EWMA and the number of periods
+   given a window size
+
+ - y(t) = sum_02t(w_i * x_(i-1)) / sum_02t(w_i)
+
+ - so how do we decide w_i?
+ - if we expand we get y(t) = ((1 - alpha) ^ n * x_(t-n)) / (1 - alpha) ^ n
+ - where n = {0 <= n <= t && n is an integer}
+ - so basically, to "alpha" is a smoothing factor (control variable)!!!
+ - alpha can be adjusted through "span" "center of mass", or "half-life"
+ - i.e. = alpha = 2 / (span + 1) -> higher span = lower alpha
+ - in our EWMA script example we used df.ewm(span=12)
+
+
+# Holt Winters Methods
+ - EWMA has "ONE smoothing factor alpha" which failed to account for
+   other factors like trend and seasonality
+ - Using double Exponential smoothing method (from Holt)
