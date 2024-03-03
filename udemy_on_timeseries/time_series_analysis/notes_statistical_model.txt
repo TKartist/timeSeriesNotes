@@ -1,0 +1,38 @@
+# 3 different trends,
+# upward, horizontal/stationary, downward
+# time-series can have any number of combination of these
+
+# seasonality :- repeating trends
+
+# cyclical - trends with no set repetition
+# there is no definable trends in period
+
+# if we can determine the period of the trend
+# it is seasonal, otherwise it is cyclical
+# because some trends happen in combination
+# (for example up down up down) but
+# we can't patternize the period of these
+# cycles
+
+# Hodrick-Prescott filter :-
+# y(t) = trend(t) + cyclical(t)
+# y(t) = time-series
+# trend(t) = trend component
+# cyclical(t) = cyclical component
+
+# bascially it is saying, all time-series
+# data is composed of some trend-component
+# mixed with some cyclical component
+
+Now, these "components"(trend and cyclical)
+are determined by minimizing the following
+quadratic loss function, where lambda is a 
+smoothing parameter: (google the equation if in question)
+
+lambda handles variations in the growth rate
+of the trend component (good default value
+for lambda is 1600 for quaterly data and
+use 6.25 for annual data, whereas we are recommended
+to use 129,600 for monthly data)
+
+# search up, the reason for lambda default values
