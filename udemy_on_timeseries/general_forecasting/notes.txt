@@ -52,4 +52,34 @@ RMSE: root(MSE)
 
 # Stationarity and Differencing
  - Stationary, if does not exhibit trends and seasonality
+
+# ACF and PACF
+ - ACF : AutoCorrelation Function plot
+ - PACF : Partial AutoCorrelation Function plot
+ - So what is Correlation?
+    -> Measure of the strength of the linear relationship between 2 variables
+    -> ranges from -1 to +1
+    -> Close it is to +1, the stronger the positive linear relationship (upward)
+    -> Closer to -1, stronger the negative linear relationship (downward)
+    -> Closer to 0, no Correlation (Correlation value 0 means f'(x) = 0)
+ - What is AutoCorrelation?
+    -> AutoCorrelation Plot shows the correlation of the eries with itself, lagged by 'x' time units
+    -> So the y-axis is the correlation and the x-axis is the number of time units of lag
+    -> detailed explanation : so how do we get values to plot on Correlagram (AutoCorrelation plot)
+       i.e. we are plotting ACF of sales of a store.
+       We plot y-axis with "Sales on day i" against x-axis with "Sales on day i - 1", and calculate
+       the correlation value (i.e. 0.8). and we repeat this process by increasing alpha of 'i - alpha'
+       and finding its correlation value.
+       Each of the correlation value will be plotted as y-axis value with "alpha" as the x-axis value.
+       This will result in a Correlagram we discussed as ACF.
+ - Partial AutoCorrelation?
+    -> Instead of directly using the correlation values, we calculate the residuals (the difference
+       between the point and the correlation function) and plot that against the next "alpha":
+       y-axis: Residuals fitted on day i - alpha, x-axis: sales on day i - alpha - 1
+
+# In conclusion:
+ - ACF describes the autocorrelation between an observation and another observation at a
+   prior time step that includes direct and indirect dependence information
+ - PACF only describes the direct relationship between an observation and its lag.
+ - Both are used to choose ORDER PARAMETERS for ARIMA based models.
  
