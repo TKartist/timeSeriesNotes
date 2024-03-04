@@ -98,3 +98,33 @@ try to avoid weakness of SMA -> i.e.
  - EWMA has "ONE smoothing factor alpha" which failed to account for
    other factors like trend and seasonality
  - Using double Exponential smoothing method (from Holt)
+ - 3 components -> l(t) = level (alpha as smoothing component)
+                -> b(t) = trend (beta as smoothing component)
+                -> s(t) = seasonal (gamma as smoothing component)
+ - 2 variations which differ in terms of the seasonal component
+
+# Single Exponential Smoothing (what we did in Exponential Smoothing)
+ - y_0 = x_0
+ - y(t) = (1 - alpha) * y_(t - 1) + alpha * x_t
+
+# Double Exponential Smoothing (aka. Holt's method)
+ - New Smoothing factor "beta" is introduced, which addresses the trend
+ - l(t) = level = (1 - alpha) * l_(t - 1) + alpha * x_t
+ - b(t) = trend = (1 - beta) * b_(t - 1) + beta * x_t
+ - y(t) = l(t) + b(t)                                       # fitted model
+ - forecast(y_(t + h)) = l(t) + h * b(t)                    # forecasting model (h = *periods into the future)
+ - With this model, we would be able to forecast the basic trend (upward, stationary, downward etc.)
+ - However, it wouldn't be possible to predict seasonality (like in airline passenger info we had) like
+   there are more passengers during the summer than winter and etc.
+   Hence, we use "Holt-Winters method" which can predict the seasonality as well (aka. Triple Exponential Smoothing)
+
+# Triple Exponential Smoothing (Holt-Winters Method)
+ - Third smoothing component, "gamma", incorporates the seasonality
+ - l(t) = level = (1 - alpha) * l_(t - 1) + alpha * x_t
+ - b(t) = trend = (1 - beta) * b_(t - 1) + beta * (l_t - l_(t - 1))
+ - c(t) = seasonality = (1 - gamma) * c_(t - L) + gamma * (x_t - l_(t - 1) - b_(t - 1))
+ - y(t) = (l(t) + b(t)) * c(t)
+ - forecast(y(t + m)) = (l(t) + m * b(t)) * c_(t - L + 1 + (m - 1) mod L)
+ - m = # periods into the future
+ - L = length of a cycle -> i.e. if yearly info L = 12
+

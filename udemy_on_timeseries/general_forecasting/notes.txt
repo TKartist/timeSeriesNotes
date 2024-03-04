@@ -1,0 +1,55 @@
+# forecasting timeseries data
+
+# Forecasting Procedure
+ - Choose a model
+ - Split data into train and test sets
+ - Fit model on training set
+ - Evaluate model on test set
+ - Re-fit model on entire data set
+ - Forecast for future data
+
+# Section Overview
+ - Introduction to Forecasting
+ - ACF and PACF plots
+ - AutoRegressive - AR
+ - Descriptive Statistics and Tests
+ - Choosing ARIMA orders
+ - ARIMA based models
+
+# Test-Train Split
+ - Train Data (larger portion), Test Data (Most recent data)
+ - Size of the test set is typically about 20% of the total sample
+ - However, the test set's size depends on how long the sample is
+   and how far ahead we want to forecast
+   The Test set should "IDEALLY" be at least as large as the maximum forecast horizon required.
+   Meaning, if we want to predict a month, we need as least a month's worth of data as test set 
+ - Longer the forecast horizon, the lower your prediction accuracy becomes
+
+# 3 most common evaluation metrics for regression:
+ - Mean Absolute Error (MAE)
+ - Mean Squared Error (MSE)
+ - Root Mean Squared Error (RMSE)
+
+y - the real value of the test data
+predicted(y) - the predicted value from our forecast
+
+MAE: 1 / n * (sum(|y_i - predicted(y_i)|))
+ - It is averaging the residuals so it won't alert us if the forecast was really off for a few points
+ - We want to be aware of any prediction error that are very large (even few)
+ - Solution to this problem is MSE
+
+MSE: 1 / n * sum((y_i - predicted(y_i)) ^ 2)
+ - Really punishes the error of the model, so easy to notice even few errors in prediction
+ - Problem : the units get squared as well (i.e. we are predicting dollars and the result is dollar squared)
+ - Hence, a bit confusing
+ - That is why we use RMSE (Most popular)
+
+RMSE: root(MSE)
+
+ - How do we evaluate a forecast for future dates?
+    -> It is impossible as we don't know the actual value yet
+
+
+# Stationarity and Differencing
+ - Stationary, if does not exhibit trends and seasonality
+ 
