@@ -82,4 +82,63 @@ RMSE: root(MSE)
    prior time step that includes direct and indirect dependence information
  - PACF only describes the direct relationship between an observation and its lag.
  - Both are used to choose ORDER PARAMETERS for ARIMA based models.
+
+
+# ARIMA (AutoRegressive Integrated Moving Average)
+ - Not capable of incorporating new development in data, so
+   ARIMA models are not necessarily great for prediction of stock
+   prices
+ - Generalization of ARMA (AutoRegressive Moving Average)
+ - Fitted for time series data
+ - Variants: Non-Seasonal ARIMA and Seasonal ARIMA (SARIMA)
+ - SARIMA can have exogenous variables and these are called SARIMAX 
+
+ - Differencing: Used to apply ARIMA on Non-Stationary data.
+   Differencing can be applied one or more times to eliminate the non-Stationarity
+
+
+# Non-seasonal ARIMA:
+ - Are generally denoted as ARIMA(p,d,q) where params p, d, and q are
+   non-negative integers.
+     -> p: AR(AutoRegression)
+           A regression model that utilizes the dependent relationship between
+           a current observation and observations over a previous period
+     -> d: I(Integrated)
+           Differencing of observations (subtracting an observation from an
+           observation at the previous time step) in order to make the time
+           series stationary
+     -> q: MA(Moving Average)
+           A model that uses the dependency between an observation and a residual
+           error from a moving average model applied to lagged observations
+
+# Stationary vs Non-stationary Data
+ - Constant mean and variance
+ - stationary data set will allow our model to predict that the
+   mean and variance will be the same in future periods.
+ - Mathematical test for Stationarity is Augumented Dickey-Fuller test
+ - if NOT stationary -> transform it to stationary data (through differencing)
+ - You can recursively perform differencing until you reach Stationarity
+ - Each differencing step comes at the cost of losing a row of data
  
+ - For seasonal data, you can also difference by a season.
+ - if you had monthly data with yearly seasonality, you could difference by a
+   time unit of 12, instead of just 1.
+ - SARIMA, common method: combine both, taking the seasonal difference of the
+   first difference.
+
+# Assuming data is stationary:
+ - How to choose p, d, q terms (2 main ways)
+   1. Using ACF and PACF (by viewing the decay in these plots)
+      plots are difficult to read and often even when reading them
+      correctly, the best performing p, d, or q value may be different
+      than what is read.
+   2. Grid Search: (easy but takes time)
+      RUN ARIMA based models on different combinations of p, d, and q
+      and compare the models for on some evaluation metric.
+
+      As computational power becoming cheaper and faster, its often a good IDEA
+      to use the built-in automated tools that search for the correct
+      p, d, and q.
+
+# SARIMA is very similar to ARIMA, but adds another set of params (P, D, Q)
+  for the seasonal component
