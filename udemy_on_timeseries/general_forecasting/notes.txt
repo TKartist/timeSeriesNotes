@@ -142,3 +142,18 @@ RMSE: root(MSE)
 
 # SARIMA is very similar to ARIMA, but adds another set of params (P, D, Q)
   for the seasonal component
+
+
+# ARIMA Overview
+ - AR - AutoRegression : indicates that the evolving variable of interest is
+   regressed on its own lagged (i.e. prior) values
+ - MA - Moving Average : indicates the regression error is actually a linear
+   combination of error terms whose values occurred contemporaneously and
+   at various times in the past
+                       : uses the dependency between an observation and a
+                         residual error from a moving average model applied
+                         to lagged observations
+ - p -> number of time lages of the AutoRegressive model.
+ - d -> degree of differencing (number of times the data have had past
+        values subtracted)
+ - q -> order of the moving-average model
