@@ -38,9 +38,11 @@ import matplotlib.pyplot as plt
 # libraries
 
 
-from statsmodels.tsa.api import VAR
+# VARMA is just expanding ARMA with VAR
+from statsmodels.tsa.api import VAR, VARMAX
 from statsmodels.tsa.stattools import adfuller
 from statsmodels.tools.eval_measures import rmse
+from pmdarima import auto_arima
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -103,39 +105,33 @@ train = df_transformed[:-nobs] # -nobs -> nobs from the end
 test = df_transformed[-nobs:]
 
 # Grid Search for ORDER value 'p' AR of VAR model
+# money_order = auto_arima(df['Money'], maxiter=1000) # overriding maximum iteration limit for maximum likelihood estimator
+# spending_order = auto_arima(df['Spending'], maxiter=1000)
+# print(money_order.summary()) (1, 2, 2)
+# print(spending_order.summary()) (1, 1, 2)
 
-model = VAR(train)
-for p in [1, 2, 3, 4, 5, 6, 7]:
-    results = model.fit(p)
-    print(f'ORDER {p}')
-    print(f'AIC: {results.aic}')
-    print('\n')
+# from summary it looks like order for VARMA is (1, 2) taking the
+# d-value from the SARIMAX models
 
-# best order is p = 5
-results = model.fit(5)
+model = VARMAX(train, order=(1, 2), trend='c') # c for constant linear fit
+results = model.fit(maxiter=1000, disp=False)
 print(results.summary())
 
-# Grab 5 lagged values, right before the test starts
-# has to be Numpy Array
-lags = train.values[-5:]
+# now we just forecast
 
-ax = results.forecast(y=lags, steps=12)
-print(ax)
+df_forecast = results.forecast(12)
 
-idx = pd.date_range('2015-01-01', periods=12, freq="MS") # building index for forecast result
-df_forecast = pd.DataFrame(data=ax, index=idx, columns=["Money_2d", "Spending_2d"])
+# Now we invert the transformation back
 
-# now we have money and spending 2 difference
-# we have to revert it to the forecast
-
-df_forecast['Money1d'] = (df['Money'].iloc[-nobs-1] - df['Money'].iloc[-nobs-2]) + df_forecast['Money_2d'].cumsum()
+df_forecast['Money1d'] = (df['Money'].iloc[-nobs-1] - df['Money'].iloc[-nobs-2]) + df_forecast['Money'].cumsum()
 df_forecast['MoneyForecast'] = df['Money'].iloc[-nobs-1] + df_forecast['Money1d'].cumsum()
 
-df_forecast['Spending1d'] = (df['Spending'].iloc[-nobs-1] - df['Spending'].iloc[-nobs-2]) + df_forecast['Spending_2d'].cumsum()
-df_forecast['SpendingForecast'] = df['Spending'].iloc[-nobs-1] + df_forecast['Spending1d'].cumsum()
+df_forecast['Spending1d'] = (df['Spending'].iloc[-nobs-1] - df['Spending'].iloc[-nobs-2]) + df_forecast['Spending'].cumsum()
+df_forecast['SpendingForecast'] = df['Spending'].iloc[-nobs-1] + df_forecast['Spending'].cumsum()
 
-test_range = df[-nobs:]
-
-test_range['Money'].plot(legend=True, figsize=(12, 8))
-df_forecast['MoneyForecast'].plot(legend=True)
+test_clean = df[-nobs:]
+df_forecast['MoneyForecast'].plot()
+test_clean.plot()
 plt.show()
+
+# Surprisingly, VARMA performs shit compared to VAR Model
