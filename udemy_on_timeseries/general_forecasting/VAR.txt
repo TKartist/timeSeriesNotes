@@ -1,0 +1,10 @@
+
+- General Steps involved in building a VAR model:
+   - Examine the data
+   - Visualize the data
+   - Test for stationarity
+   - Select appropriate order p -> auto_arima again
+   - instantiate the model and fit it to a training set
+   - if necessary, invert the earlier transformation
+   - evaluate model predictions against a known test set
+   - forecast future
