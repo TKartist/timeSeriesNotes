@@ -52,8 +52,8 @@ test = df1.iloc[436:]
 
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 
-model = SARIMAX(train['total'], order=(1,0,0), seasonal_order=(2,0,0,7),
-                enforce_invertibility=False)
+# model = SARIMAX(train['total'], order=(1,0,0), seasonal_order=(2,0,0,7),
+#                 enforce_invertibility=False)
 
 # invertibility : basically the calculation of AR is linear func of past and
 # current observation, and there is a value theta (if < 1) which tries to 
@@ -64,25 +64,50 @@ model = SARIMAX(train['total'], order=(1,0,0), seasonal_order=(2,0,0,7),
 # which doesn't make sense and only skews data sometimes if the data's
 # theta is already less than 1. Hence, we disable the invertibility here.
 
-results = model.fit()
+# results = model.fit()
 
 start = len(train)
 end = len(train) + len(test) - 1
-predictions = results.predict(start, end).rename('SARIMA Model')
+# predictions = results.predict(start, end).rename('SARIMA Model')
 
-ax = test['total'].plot(legend=True, figsize=(16,9))
+# ax = test['total'].plot(legend=True, figsize=(16,9))
 
-holidays = test.query('holiday==1').index
+# holidays = test.query('holiday==1').index
 
-for day in holidays:
-    ax.axvline(x=day, color='black', alpha=0.8)
+# for day in holidays:
+#     ax.axvline(x=day, color='black', alpha=0.8)
 
-predictions.plot(legend=True)
+# predictions.plot(legend=True)
 # plt.show()
 
 from statsmodels.tools.eval_measures import rmse
-k = rmse(test['total'], predictions)
-print(k)
-print(test['total'].mean())
+# k = rmse(test['total'], predictions)
+# print(k)
+# print(test['total'].mean())
 
 # How to add exogenous variable into our SARIMA model
+
+# for SARIMAX, we need to provide more info for the future dats.
+# we provide known exogenous variable into the future
+# we can't also preduct this exogenous variables, because then we are attempting
+# to predict 2 things at once.
+
+# Basically we have to know these future eXogenous vars or at least have
+# a VERY confident estimates
+
+from pmdarima import auto_arima
+# k = auto_arima(df1['total'], exogenouse=df1[['holiday']], seasonal=True, m=7).summary()
+# print(k)
+
+model = SARIMAX(train['total'], exog=train[['holiday']], order=(1,0,0), seasonal_order=(1,0,1,7), enforce_invertibility=False)
+result = model.fit()
+print(result.summary())
+
+
+predictions = result.predict(start, end, exog=test[['holiday']]).rename('SARIMAX with exog')
+test['total'].plot(legend=True, figsize=(16,5))
+predictions.plot(legend=True)
+plt.show()
+
+z = rmse(test['total'], predictions)
+print(z, df1['total'].mean())
