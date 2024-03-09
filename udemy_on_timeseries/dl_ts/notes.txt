@@ -1,0 +1,53 @@
+Deep Learning
+
+# Section Overview
+ - Perceptron model
+ - Neural Networks
+ - Keras Basics for Regression Task
+ - Recurrent Neural Networks (RNN)
+ - LSTM (Long short term memory units) and GRU (Gated Recurrent Unit) Neurons
+ - Time Series Forecasting with RNN
+ 
+ - Neural Networks in general tend to be  "black boxes" so it is very
+   difficult to interpret them beyond their performance metrics
+   (essentially, it would recieve historical data and produce a forecast
+   BUT, it won't present how many lags were useful or any other relative
+   info)
+ - ARIMA based models are much easier to understand and work with (and
+   often perform better)
+
+# ANN (Artificial Neural Networks)
+ - Actually based on biology
+ - So we are going to see how to mimic biological neurons with Artificial
+   Neuron -> Known as perceptron
+ - Perceptron structure :
+      Has multiple inputs where each input has a randomly generated
+      individual weight. Input * Weight -> passed through activation function
+      -> which will produce the output
+
+      To Avoid any unforeseen errors, we introduce a "bias"
+      which will evade any sort of unwanted error
+
+      Mathematically we can represent a perceptron as following
+      sigma(w_i * x_i + b) n >= i >= 0
+      Multiple perceptrons will merge together into one and generate a Matrix
+
+# Neural Networks
+ - Refer to following for visual example (https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Colored_neural_network.svg/1200px-Colored_neural_network.svg.png)
+ - Neural Network, literally network of neurons
+ - Multiple neuron/perceptrons will form a network, working both as an
+   input and output
+ - Input layer: Real Values from the data
+ - Hidden layer: layers between input and output layer
+               : 3 or more hidden layers, it is considered as "deep network"
+ - Output layer: final estimate of the output
+ - As you go forward through more layers, the level of abstraction increases (NO SHIT)
+ - Old activation function is a bit drastic with either 0 or 1 output, so 
+   we want to build something that has a bit more spectrum of answer such as
+   tanh(x), sinh(x), cosh(x), (1/ (1 + e^-(x))), etc.
+   there is Rectified Linear Unit (ReLU): relatively simple with: max(0, z)
+   -> best performance in many situations
+ - All of these are part of a library in python, so we can just switch between
+   them and don't have to build any on our own.
+
+# Keras
