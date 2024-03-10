@@ -1,0 +1,10 @@
+# Facebook Prophet library
+
+Designed to forecast the business data sets that are common at FaceBook (e.g. Daily, Minute, Large Data sets)
+# Alternative and NOT necessarily BETTER than ARIMA
+
+Prophet is a additive regression model with 4 main components:
+ - piecewise linear or logistic growth curve trend. Prophet automatically detects changes in trends by selecting changepoints from the data
+ - yearly seasonal component modeled using fourier series
+ - weekly seasonal component using dummy variables
+ - user-provided list of important holidays
