@@ -51,3 +51,51 @@ Deep Learning
    them and don't have to build any on our own.
 
 # Keras
+ - basics of keras and build a Neural Network
+ - Process of building an NN with Keras, we first define the sequential
+   model object, then add layers to it.
+   After, we fit the model to the training data for a chosen number of
+   epochs.
+   An epoch is one full pass through all the training data. Typically the
+   training data is split into batches, instead of being passed all at
+   once to the Network
+
+# Deep learning with sequences (Recurrent Neural Networks)
+ - Examples of Sequences:
+    - Time series data
+    - sentences (for NLP)
+    - audio
+    - car trajectories
+    - music
+
+# Normal Neuron in Feed Forward Network:
+input -> aggregation of input -> activation function (i.e. ReLU : Rectified Linear Unit,
+or tanh(x) function) -> Output
+
+# Recurrent Neuron
+Difference between recurrent and normal neuron is that,
+unlike the normal feed which goes from input -> aggregation of input
+-> activation function -> output, recurrent can recursively
+pass its output from activation to the aggregation input stage. So:
+input -> aggregation -> activation -> aggregation -> activation
+-> aggregation -> activation ... -> activation -> output 
+img: (https://www.oreilly.com/api/v2/epubs/9781492037354/files/assets/mlst_1401.png)
+where it processes both activation function result and new input
+
+- recurrent neuron can have a layer as well
+- so all these "recurrence" happens within the x-axis of time (t)
+- Each output at 't' is stored in memory cell.
+- so memory cell would have output at t = 0, 1, 2 ...
+
+- RNN is very flexible in terms of inputs and outputs
+- basically it means, you can have a sequence of input and have singular output
+  or have a singular input and have a sequence of outputs
+
+
+# LSTN and GRU
+# Issue with RNN is that after awhile the network will begin to "forget" the first inputs,
+# as information is lost at each step going through the RNN (common on long sequence)
+# so we need some "long-term memory" for the network
+# Balance both short(recently trained) and long(for old trained data) term memory
+# Hence, we have LSTM (Long short-term memory) cell to help address these RNN issues
+# 
