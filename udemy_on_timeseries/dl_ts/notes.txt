@@ -98,4 +98,15 @@ where it processes both activation function result and new input
 # so we need some "long-term memory" for the network
 # Balance both short(recently trained) and long(for old trained data) term memory
 # Hence, we have LSTM (Long short-term memory) cell to help address these RNN issues
-# 
+# LSTM cell structure (https://miro.medium.com/v2/resize:fit:674/1*jikKbzFXCq-IYnFZankIMg.png)
+ - forget gate layer : decide what info to forget h_(t - 1) -> input, x_t -> previous hidden state
+ - input gate layer, hyperbolic tangent layer : decides what info to remember. IGL -> sigmoid (0 or 1), and HTL -> tanh() function
+ - update old cell state to new cell state : we already know what to forget and what to store so we utilize them together to execute the update
+ - Finally do some operation and output the result
+ - there is a variant called LSTM with "peepholes"
+ - another variant is called Gated Recurrent Unit (GRU)
+    - Combines forget and input gate layer into one gate called "update gate"
+    - also merges hidden and cell state
+    - increasinly growing popular
+
+# For text generation, LSTM works the best
